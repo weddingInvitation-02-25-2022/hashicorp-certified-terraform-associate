@@ -2,11 +2,21 @@
 
 ## Step-01: Introduction
 - Understand basic Terraform Commands
-  - terraform init
-  - terraform validate
-  - terraform plan
-  - terraform apply
-  - terraform destroy      
+  - terraform init = 
+  Used to initialize a working directory containing terraform config files. 
+  Download providers 
+  
+  - terraform validate = 
+  Validates the TF configuration files in that respective directory to ensure they are syntactically valid and internally consistent
+  
+  - terraform plan = 
+  It creates an execution plan. Terraform performs a refresh and determines what actions are necessary to achieve the dessired state specified in configuration files 
+  
+  - terraform apply = 
+  Used to apply the changes required to reach the desired state of the configuration. By defaut, apply scan the current directory for the configuration and applies the changes appropriately.
+  
+  - terraform destroy = 
+  Used to destroy the TF managed infrastructure. Confirmation needed.
 
 ## Step-02: Review terraform manifest for EC2 Instance
 - **Pre-Conditions-1:** Ensure you have **default-vpc** in that respective region
