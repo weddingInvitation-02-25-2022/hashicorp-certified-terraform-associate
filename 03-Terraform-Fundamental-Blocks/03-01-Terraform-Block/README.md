@@ -1,12 +1,15 @@
-# Terraform Block 
+# Terraform Block/ Settings Block/ Configuration Blocks
 
 ## Step-01: Introduction
 - Understand about Terraform Block and its importance
+1. Terraform block used to specify a required terraform version, provider requirement and configure terraform backend (Terraform state)
+2. Within a Terraform block, only constant values can be used; arguments may not refer to named objects such as resources, input variables etc and may not use any of the terraform built-in functions.
+
 - Understand how to handle version constraints for Terraform Version and Provider Version in Terraform Block
 
 ### Step-02: Understand about Terraform Settings Block
-- Required Terraform Version
-- Provider Requirements
+- Required Terraform Version (`required_version`) = Terraform will first check local TF CLI version is matching with the provided required version. It will lock the current configuration version. 
+- Provider Requirements (`required_providers`) = Give the provider details. The provided version will get downloaded while terraform init 
 - Terraform backends
 - Experimental Language Features
 - Passing Metadata to Providers
