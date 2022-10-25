@@ -9,7 +9,8 @@
 
 ## Step-02: Understand Resource Syntax
 - We are going to understand about below concepts from Resource Syntax perspective
-- Resource Block
+- Resource Block = 
+Each resource block describes one or more infrastructure objects (syntax, behaviour, provisioners (post-creation actions))
 - Resource Type
 - Resource Local Name
 - Resource Arguments
