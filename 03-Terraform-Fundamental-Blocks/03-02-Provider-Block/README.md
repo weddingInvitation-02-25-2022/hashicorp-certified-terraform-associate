@@ -35,6 +35,9 @@ terraform {
 
 
 ## Step-04: Provider Block  
+- Declare providers for terraform to install providers & use them 
+- Providers configuration belong to Root Modeules 
+- Terraform relies on providers to interact with remote systems (cloud or on-prem)
 - Create a Provider Block for AWS
 ```t
 # Provider Block
