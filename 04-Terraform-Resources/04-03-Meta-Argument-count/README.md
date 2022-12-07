@@ -1,4 +1,5 @@
 # Terraform Resource Meta-Argument count
+For creating multiple resource instances according to a count 
 
 ## Step-01: Introduction
 - Understand Resource Meta-Argument `count`
