@@ -1,4 +1,5 @@
 # Terraform Resource Meta-Argument for_each
+To create multiple instances according to a map, or set of string 
 
 ## Step-01: Introduction
 - Understand about Meta-Argument `for_each`
