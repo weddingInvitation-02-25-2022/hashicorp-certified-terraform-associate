@@ -1,4 +1,5 @@
 # Terraform Resource Meta-Argument lifecycle
+Standard resource behavior can be customized/altered using the special nested lifecycle block within a resource block body
 
 ## Step-01: Introduction
 - lifecyle Meta-Argument block contains 3 arguments
