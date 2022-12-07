@@ -1,6 +1,14 @@
-# Terraform Resource Meta-Argument depends_on
+# Terraform Resource Meta-Argument 
+Meta-argument can be used with any resource type to change the behaviour of resources.
 
-## Step-01: Introduction
+# Terraform Resource Meta-Argument depends_on
+ - To handle hidden resource or module dependencies that Terraform cannot automatically infer.
+ - Explicitly specify a dependency when a resource or module relies on another resource's behavior but does not access any of that resource's data in its arguments.
+ - This argument is available in module blocks and in all resource blocks, regardless of resource type. 
+ - It requires a list of references to other resources or child modules in the same calling module. This list cannot include arbitrary expressions because the depends_on value must be known before Terraform knows resource relationships and thus before it can safely evaluate expressions.
+ - It should be use as a last resort because it can cause Terraform to create more conservative plans that replace more resources than necessary.
+ - 
+## Step-01: Introduction 
 - Create 9 aws resources in a step by step manner
 - Create Terraform Block
 - Create Provider Block
