@@ -1,5 +1,20 @@
 # Terraform Resource Meta-Argument for_each
-To create multiple instances according to a map, or set of string 
+- To create multiple instances according to a map, or set of string 
+- If a resource or module block includes a for_each argument whose value is a map or a set of strings, Terraform creates one instance for each member of that map or set.
+- Each instance has a distinct infrastructure object associated with it, and each is separately created, updated, or destroyed when the configuration is applied.
+- In blocks where for_each is set, an additional each object is available in expressions, so you can modify the configuration of each instance. This object has two attributes:
+each.key — The map key (or set member) corresponding to this instance.
+each.value — The map value corresponding to this instance. (If a set was provided, this is the same as each.key.)
+
+**For set of string, each.key=each.value**
+for_each = toset(["one","two"]) => each.key = one 
+
+**For Maps, we use each.key & each.value**
+for_each = {
+    region = "eastus"
+  }
+each.key = region
+each.value = eastus
 
 ## Step-01: Introduction
 - Understand about Meta-Argument `for_each`
