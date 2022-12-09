@@ -1,5 +1,12 @@
 # Terraform Resource Meta-Argument count
-For creating multiple resource instances according to a count 
+- For creating multiple resource instances according to a count 
+- If a resource or module block includes a count argument whose value is a whole number, Terraform will create that many instances.
+- Each instance has a distinct infrastructure object associated with it, and each is separately created, updated, or destroyed when the configuration is applied.
+- It accepts numeric expressions only. The count value must be known before Terraform performs any remote resource actions. 
+- count.index — The distinct index number (starting with 0) corresponding to this instance.
+- When count is set, Terraform distinguishes between the block itself and the multiple resource or module instances associated with it. Instances are identified by an index number, starting with 0. <TYPE>.<NAME>[<INDEX>] or module.<NAME>[<INDEX>] (for example, aws_instance.server[0], aws_instance.server[1], etc.) refers to individual instances.
+- **A given resource or module block cannot use both count and for_each**
+- **Problem with Count** = The resource instances were still identified by their index instead of the string values in the list. If an element was removed from the middle of the list, every instance after that element would see its index value change, resulting in more remote object changes than intended. Using for_each gives the same flexibility without the extra churn.
 
 ## Step-01: Introduction
 - Understand Resource Meta-Argument `count`
