@@ -21,6 +21,9 @@ argument `-var-file`
 
 
 ## Step-01: Input Variables Basics 
+- Input variables let you customize aspects of Terraform modules without altering the module's own source code. This functionality allows you to share modules across different Terraform configurations, making your module composable and reusable.
+- When you declare variables in the root module of your configuration, you can set their values using CLI options and environment variables. When you declare them in child modules, the calling module should pass values in the module block.
+
 - **Reference Sub folder:** v1-Input-Variables-Basic
 - Create / Review the terraform manifests
   - c1-versions.tf
@@ -59,7 +62,7 @@ rm -rf terraform.tfstate*
 ## Step-02: Input Variables Assign When Prompted
 - **Reference Sub folder:** v2-Input-Variables-Assign-when-prompted
 - Add a new variable in `variables.tf` named `ec2_instance_type` without any default value. 
-- As the variable doesn't have any default value when you execute `terraform plan` or `terraform apply` it will prompt for the variable. 
+- **As the variable doesn't have any default value when you execute `terraform plan` or `terraform apply` it will prompt for the variable.** 
 
 ```
 # Initialize Terraform
@@ -77,7 +80,7 @@ terraform plan
 
 ## Step-03: Input Variables Override default value with cli argument `-var`
 - **Reference Sub folder:** v3-Input-Variables-Override-default-with-cli
-- We are going to override the default values defined in `variables.tf` by providing new values using the `-var` argument using CLI
+- We are going to override the default values defined in `variables.tf` by providing new values using the `-var` argument using CLI on `terraform plan` or `terraform apply`
 ```
 # Initialize Terraform
 terraform init
@@ -108,7 +111,8 @@ terraform apply v3out.plan
 - Set environment variables and execute `terraform plan` to see if it overrides default values 
 ```
 # Sample
-export TF_VAR_variable_name=value
+export **TF_VAR_variable_name**=value
+Name has to be set as TF_VAR + variable name provided in the variables.tf file 
 
 # SET Environment Variables
 export TF_VAR_ec2_instance_count=1
