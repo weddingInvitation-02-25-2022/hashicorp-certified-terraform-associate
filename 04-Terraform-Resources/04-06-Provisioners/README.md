@@ -1,5 +1,5 @@
 # Terraform Resource Meta-Argument Provider
-For selecting a non-default provider configuration 
+For selecting a non-default provider configuration (Refer section-3)
 
 # Provisioners & Connections
 For taking extra actions after the resource creation (Example: Install some app on server or do something on local desktop after resource is created at remote destination)
