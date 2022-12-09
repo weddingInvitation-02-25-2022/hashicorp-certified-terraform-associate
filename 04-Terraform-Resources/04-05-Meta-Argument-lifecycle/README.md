@@ -1,5 +1,14 @@
 # Terraform Resource Meta-Argument lifecycle
-Standard resource behavior can be customized/altered using the special nested lifecycle block within a resource block body
+- Standard resource behavior can be customized/altered using the special nested lifecycle block within a resource block body.
+- lifecycle is a nested block that can appear within a resource block. 
+- The lifecycle block and its contents are meta-arguments, available for all resource blocks regardless of type.
+- The arguments available within a lifecycle block are create_before_destroy, prevent_destroy, ignore_changes, and replace_triggered_by whereas default behaviour is destroy_and_recreate
+1. **create_before_destroy** = The new replacement object is created first, and the prior object is destroyed after the replacement is created. 
+2. **prevent_destroy** = This will cause Terraform to reject with an error any plan that would destroy the infrastructure object associated with the resource, as long as the argument remains present in the configuration. This can be used as a measure of safety against the accidental replacement of objects that may be costly to reproduce, such as database instances.
+3. **ignore_changes** = By default, Terraform detects any difference in the current settings of a real infrastructure object and plans to update the remote object to match configuration. The ignore_changes feature is intended to be used when a resource is created with references to data that may change in the future, but should not affect said resource after its creation. In some rare cases, settings of a remote object are modified by processes outside of Terraform, which Terraform would then attempt to "fix" on the next run. In order to make Terraform share management responsibilities of a single object with a separate process, the ignore_changes meta-argument specifies resource attributes that Terraform should ignore when planning updates to the associated remote object. e.g. Tag updates 
+4. **replace_triggered_by** = Replaces the resource when any of the referenced items change. Supply a list of expressions referencing managed resources, instances, or instance attributes. When used in a resource that uses count or for_each, you can use count.index or each.key in the expression to reference specific instances of other resources that are configured with the same count or collection. 
+
+- **Custom Condition Checks** = You can add precondition and postcondition blocks with a lifecycle block to specify assumptions and guarantees about how resources and data sources operate. 
 
 ## Step-01: Introduction
 - lifecyle Meta-Argument block contains 3 arguments
