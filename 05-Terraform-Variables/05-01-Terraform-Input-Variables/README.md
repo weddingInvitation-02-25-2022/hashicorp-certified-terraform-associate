@@ -19,10 +19,24 @@ argument `-var-file`
 - Create a new EC2 Key pair with name as `terraform-key`
 - In all the templates listed below V1 to V12, we will be using `key_name      = "terraform-key"` incase if you want to login to EC2 Instance you can use this key
 
+## Variable arguments
+- default - A default value which then makes the variable optional.
+- type - This argument specifies what value types are accepted for the variable.
+- description - This specifies the input variable's documentation.
+- validation - A block to define validation rules, usually in addition to type constraints.
+- sensitive - Limits Terraform UI output when the variable is used in configuration.
+- nullable - Specify if the variable can be null within the module.
+
+## Type Constraints
+string, number, bool, list(<type>), set(<type>), map(<type>), object(.{<ATTR_NAME> = <type>,..}.), tuple(<type>)
+- If no type constraint is set then a value of any type is accepted.
+- The keyword any may be used to indicate that any type is acceptable.
+- If both the type and default arguments are specified, the given default value must be convertible to the specified type.
 
 ## Step-01: Input Variables Basics 
 - Input variables let you customize aspects of Terraform modules without altering the module's own source code. This functionality allows you to share modules across different Terraform configurations, making your module composable and reusable.
 - When you declare variables in the root module of your configuration, you can set their values using CLI options and environment variables. When you declare them in child modules, the calling module should pass values in the module block.
+- The variable declaration can also include a default argument. If present, the variable is considered to be optional and the default value will be used if no value is set when calling the module or running Terraform. The default argument requires a literal value and cannot reference other objects in the configuration.
 
 - **Reference Sub folder:** v1-Input-Variables-Basic
 - Create / Review the terraform manifests
@@ -58,6 +72,12 @@ terraform destroy -auto-approve
 rm -rf .terraform*
 rm -rf terraform.tfstate*
 ```
+
+## Step-01.1: Null input values
+- The nullable argument in a variable block controls whether the module caller may assign the value null to the variable.
+- nullable = true => The default value for nullable is true. When nullable is true, null is a valid value for the variable, and the module configuration must always account for the possibility of the variable value being null. Passing a null value as a module input argument will override any default value.
+- nullable = false => Setting nullable to false ensures that the variable value will never be null within the module. If nullable is false and the variable has a default value, then Terraform uses the default when a module input argument is null.
+- The nullable argument only controls where the direct value of the variable may be null. For variables of collection or structural types, such as lists or objects, the caller may still use null in nested elements or attributes, as long as the collection or structure itself is not null.
 
 ## Step-02: Input Variables Assign When Prompted
 - **Reference Sub folder:** v2-Input-Variables-Assign-when-prompted
@@ -109,6 +129,8 @@ terraform apply v3out.plan
 ## Step-04: Input Variables Override with Environment Variables
 - **Reference Sub folder:** v4-Input-Variables-Override-with-Environment-Variables
 - Set environment variables and execute `terraform plan` to see if it overrides default values 
+- Terraform searches the environment of its own process for environment variables named TF_VAR_ followed by the name of a declared variable.
+- This can be useful when running Terraform in automation, or when running a sequence of Terraform commands in succession with the same variables. For example, at a bash prompt on a Unix system.
 ```
 # Sample
 export **TF_VAR_variable_name**=value
@@ -117,6 +139,7 @@ Name has to be set as TF_VAR + variable name provided in the variables.tf file
 # SET Environment Variables
 export TF_VAR_ec2_instance_count=1
 export TF_VAR_ec2_instance_type=t3.large
+export TF_VAR_availability_zone_names='["us-west-1b","us-west-1d"]'
 echo $TF_VAR_ec2_instance_count, $TF_VAR_ec2_instance_type
 
 # Initialize Terraform
@@ -293,11 +316,11 @@ terraform console
 
 # Test length function
 Template: length()
-length("hi")
-length("hello")
-length(["a", "b", "c"]) # List
-length({"key" = "value"}) # Map
-length({"key1" = "value1", "key2" = "value2" }) #Map
+length("hi") => 2
+length("hello") => 5
+length(["a", "b", "c"]) # List => 3
+length({"key" = "value"}) # Map => 1
+length({"key1" = "value1", "key2" = "value2" }) #Map => 2
 ```
 
 ### Step-09-02: Learn Terraform SubString Function
@@ -308,11 +331,11 @@ terraform console
 
 # Test substr function
 Template: substr(string, offset, length)
-substr("stack simplify", 1, 4)
-substr("stack simplify", 0, 6)
-substr("stack simplify", 0, 1)
-substr("stack simplify", 0, 0)
-substr("stack simplify", 0, 10)
+substr("stack simplify", 1, 4) => "tack"
+substr("stack simplify", 0, 6) => "stack "
+substr("stack simplify", 0, 1) => "s"
+substr("stack simplify", 0, 0) => ""
+substr("stack simplify", 0, 10) => "stack simp"
 ```
 
 ### Step-09-03: Implement Validation Rule for ec2_ami_id variable
@@ -350,6 +373,8 @@ terraform plan
 `Example: export TF_VAR_db_username=admin TF_VAR_db_password=adifferentpassword`
 - When you use sensitive variables in your Terraform configuration, you can use them as you would any other variable. 
 - Terraform will `redact` these values in command output and log files, and raise an error when it detects that they will be exposed in other ways.
+- Declare a variable as sensitive by setting the sensitive argument to true.
+- If you use a sensitive value as part of an output value then Terraform will require you to also mark the output value itself as sensitive, to confirm that you intended to export it.
 - **Important Note-1:** Never check-in `secrets.tfvars` to git repositories
 - **Important Note-2:** Terraform state file contains values for these sensitive variables `terraform.tfstate`. You must keep your state file secure to avoid exposing this data.
 ```
@@ -410,7 +435,6 @@ http://<Public-IP>
 # Destroy Resources
 terraform destroy -auto-approve
 ```
-
 
 ## References
 - [Terraform Input Variables](https://www.terraform.io/docs/language/values/variables.html)
