@@ -6,30 +6,58 @@
 - When To Use Local Values?
 - What is the problem locals are solving ?
 
-```
+
 What is DRY Principle ?
 Don't repeat yourself
 
 What is local value in terraform?
-The local block defines one or more local variables within a module. 
-A local value assigns a name to an terraform expression, allowing it to be used multiple times within a module without repeating it.
+- The local block defines one or more local variables within a module. 
+- A local value assigns a name to an terraform expression, allowing it to be used multiple times within a module without repeating it.
+- Local values are like a function's temporary local variables.
+- A local value can only be accessed in expressions within the module where it was declared.
 
 When To Use Local Values?
-Local values can be helpful to avoid repeating the same values or expressions multiple times in a configuration
-If overused they can also make a configuration hard to read by future maintainers by hiding the actual values used.
-Use local values only in moderation, in situations where a single value or result is used in many places and that value is likely to be changed in future. The ability to easily change the value in a central place is the key advantage of local values.
+- Local values can be helpful to avoid repeating the same values or expressions multiple times in a configuration
+- If overused they can also make a configuration hard to read by future maintainers by hiding the actual values used.
+- Use local values only in moderation, in situations where a single value or result is used in many places and that value is likely to be changed in future. The ability to easily change the value in a central place is the key advantage of local values.
 
 What is the problem locals are solving ?
 Currently terraform doesn’t allow variable substitution within variables. The terraform way of doing this is by using local values or locals where you can somehow keep your code DRY.
 
 Another use case (at least for me) for locals is to shorten references on upstream terraform projects as seen below. This will make your terraform templates/modules more readable.
-```
+
 
 ## Step-02: Create / Review Terraform configuration files
 - c1-versions.tf
 - c2-variables.tf
 - c3-s3-bucket.tf
 
+Declaring a Local Value
+
+locals {
+  service_name = "forum"
+  owner        = "Community Team"
+}
+
+or 
+
+locals {
+  # Ids for multiple sets of EC2 instances, merged together
+  instance_ids = concat(aws_instance.blue.*.id, aws_instance.green.*.id)
+}
+
+or
+
+locals {
+  # Common tags to be assigned to all resources
+  common_tags = {
+    Service = local.service_name
+    Owner   = local.owner
+  }
+}
+
+Using Local Values
+tags = local.common_tags
 
 ## Step-03: Test the Terraform configuration using commands
 ```
