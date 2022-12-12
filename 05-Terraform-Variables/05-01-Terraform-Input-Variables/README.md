@@ -411,6 +411,7 @@ rm -rf terraform.tfstate*
 
 ## Step-11: Understand about `File` function
 - **Reference Sub folder:** v11-File-Function
+  Add user_data = file("apache_install.sh")
 - Understand about [Terraform File Function](https://www.terraform.io/docs/language/functions/file.html)
 
 ```t
