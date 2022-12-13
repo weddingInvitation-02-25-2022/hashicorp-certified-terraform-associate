@@ -73,6 +73,10 @@ Observation:
 Successfully configured the backend "s3"! Terraform will automatically
 use this backend unless the backend configuration changes.
 
+**Note: In case, change in the backend configuration then use below commands - 
+If you wish to attempt automatic migration of the state, use "terraform init -migrate-state".
+If you wish to store the current configuration with no changes to the state, use "terraform init -reconfigure".**
+
 # Verify S3 Bucket for terraform.tfstate file
 bucket-name/dev/terraform.tfstate
 
