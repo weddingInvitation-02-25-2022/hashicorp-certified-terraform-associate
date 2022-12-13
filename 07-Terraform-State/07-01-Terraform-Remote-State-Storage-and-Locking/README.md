@@ -1,5 +1,13 @@
 # Terraform Remote State Storage & Locking
 
+## What is Terraform backend ?
+Backends are responsible for storing state and providing an API for state locking. (State storage + State Lock)
+
+| Attempt | #1    | #2    |
+| :---:   | :---: | :---: |
+| Seconds | 301   | 283   |
+
+
 ## Step-01: Introduction
 - Understand Terraform Backends
 - Understand about Remote State Storage and its advantages
