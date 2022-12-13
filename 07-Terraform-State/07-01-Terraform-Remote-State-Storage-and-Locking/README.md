@@ -5,7 +5,11 @@ Backends are responsible for storing state and providing an API for state lockin
 
 | Local State | Remote State    |
 | :---:   | :---: | 
-| By default, Terraform stores state locally in a file named terraform.tfstate. When working with Terraform in a team, use of a local file makes Terraform usage complicated because each user must make sure they always have the latest state data before running Terraform and make sure that nobody else runs Terraform at the same time. | 301   | 
+| By default, Terraform stores state locally in a file named terraform.tfstate. | Terraform writes the state data to a remote data store. Terraform supports storing state in Terraform Cloud, HashiCorp Consul, Amazon S3, Azure Blob Storage, Google Cloud Storage, Alibaba Cloud OSS, and more. |
+| :---:   | :---: | 
+| When working with Terraform in a team, use of a local file makes Terraform usage complicated because each user must make sure they always have the latest state data before running Terraform and make sure that nobody else runs Terraform at the same time. | Terraform remote state file can then be shared between all members of a team. |
+
+
 
 
 ## Step-01: Introduction
