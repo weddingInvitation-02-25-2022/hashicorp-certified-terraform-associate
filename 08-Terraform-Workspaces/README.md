@@ -258,6 +258,7 @@ terraform destroy -auto-approve
 
 # Delete Dev Workspace
 terraform workspace delete dev
+(This will also delete corresponding folders and terraform.tfstate file from remote S3 location)
 ```
 ### Step-08-05: Try deleting default workspace and understand what happens
 
