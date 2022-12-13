@@ -11,7 +11,14 @@ The primary purpose of Terraform state is to store bindings between objects in a
 4. In the default configuration, Terraform stores the state in a file in the current working directory where Terraform was run and get synced.
 
 ## What is Terraform backend ?
-Backends are responsible for storing state and providing an API for state locking. (State storage + State Lock)
+- Backends are responsible for storing state and providing an API for state locking. (State storage + State Lock)
+- Backend configuration is only used by Terraform CLI.
+- Terraform cloud and Terraform enterprise always use their own state storage when performing Terraform run, so they ignore any backend block in the configuartion. 
+- Backend types = 
+| Enhanced Backends | Standard Backends    |
+| :---:   | :---: | 
+| It can both store state & perform operations. There are only two enhanced backend: local & remote | It only store state and rely on the local backend for performing operations |
+| E.g., of remote backend = TF cloud, TF Enterprise | E.g., AWS S3, Azure RM, Consul, etcd, gcs http ... |
 
 | Local State | Remote State    |
 | :---:   | :---: | 
@@ -23,6 +30,7 @@ If two team members are running Terraform at the same time, you may run into rac
 
 ## State Locking 
 - Not all backend supports state locking. AWS S3 does support.
+- Terraform state lock started with 'terraform plan' and 'terraform apply'. Once complete state lock get automatically released.
 - Terraform will lock your state for all operations that could write state. This prevents others from acquiring the lock and potentially corrupting your state.
 - State locking happens automatically on all operations that could write state. You won't see any message that it is happening. 
 - If state locking fails, Terraform will not continue.
