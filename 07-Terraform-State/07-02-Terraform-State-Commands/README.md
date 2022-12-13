@@ -78,8 +78,8 @@ Observation: It should display the state file
 - This can be used to detect any drift from the last-known state, and to update the state file.
 - This does not modify infrastructure, but does modify the state file. If the state is changed, this may cause changes to occur during the next plan or apply.
 - **terraform refresh:** Update local state file against real resources in cloud
-- **Desired State:** Local Terraform Manifest (All *.tf files)
-- **Current State:**  Real Resources present in your cloud
+- **Desired State:** Local Terraform Manifest (All *.tf files) => what I want 
+- **Current State:**  Real Resources present in your cloud => what I have   
 - **Command Order of Execution:** refresh, plan, make a decision, apply
 - Why? Lets understand that in detail about this order of execution
 ### Step-04-01: Add a new tag to EC2 Instance using AWS Management Console
