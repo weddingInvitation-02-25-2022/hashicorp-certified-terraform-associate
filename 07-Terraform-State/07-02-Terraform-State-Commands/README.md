@@ -256,6 +256,10 @@ terraform apply
   - This command will download the state from its current location and output the raw format to stdout.
 - **terraform state push:** The `terraform state push` command is used to manually upload a local state file to remote state. 
 
+**When manually pushing state, Terraform will attempt to protect you from some potentially dangerous situations:**
+1. Differing lineage: The "lineage" is a unique ID assigned to a state when it is created. If a lineage is different, then it means the states were created at different times and its very likely you're modifying a different state. Terraform will not allow this.
+2. Higher serial: Every state has a monotonically increasing "serial" number. If the destination state has a higher serial, Terraform will not allow you to write it since it means that changes have occurred since the state you're attempting to write.
+
 ```t
 # Other State Commands (Pull / Push)
 terraform state pull
@@ -311,7 +315,7 @@ Message: "No changes. Infrastructure is up-to-date."
 - The `-target` option can be used to focus Terraform's attention on only a subset of resources. 
 - [Terraform Resource Targeting](https://www.terraform.io/docs/cli/commands/plan.html#resource-targeting)
 - This targeting capability is provided for exceptional circumstances, such as recovering from mistakes or working around Terraform limitations.
--  It is not recommended to use `-target` for routine operations, since this can lead to undetected configuration drift and confusion about how the true state of resources relates to configuration.
+- It is not recommended to use `-target` for routine operations, since this can lead to undetected configuration drift and confusion about how the true state of resources relates to configuration.
 - Instead of using `-target` as a means to operate on isolated portions of very large configurations, prefer instead to break large configurations into several smaller configurations that can each be independently applied.
 ```t
 # Lets make two changes
