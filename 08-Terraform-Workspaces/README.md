@@ -1,16 +1,25 @@
 # Terraform Workspaces
 
+- Terraform starts with a single, default workspace named default that you cannot delete. If you have not created a new workspace, you are using the default workspace in your Terraform working directory.
+- Named workspaces allow conveniently switching between multiple instances of a single configuration within its single backend. 
+- The common use of multiple workspaces is to create a parallel, distinct copy of a set of infrastructure in order to test a set of changes before modifying the main production infrastructure.
+- Each workspace has its seperate terraform.tfstate file.
+- Using workspaces, the configuration still has only one backend, but you can deploy multiple distinct instances of that configuration without configuring a new backend or changing authentication credentials.
+- Terraform will not recommend using workspaces for larger infrastructure inline with environments pattern like dev, qa, staging. Recommended to use seperate configuration directories.
+- Terraform CLI workspaces are completely different than Terraform cloud workspaces.
+
+
 ## Step-01: Introduction
 - We are going to create 2 more workspaces (dev,qa) in addition to default workspace
 - Update our terraform manifests to support `terraform workspace` 
   - Primarily for security group name to be unique for each workspace
   - In the same way for EC2 VM Instance Name tag. 
 - Master the below listed `terraform workspace` commands
-  - terraform workspace show
-  - terraform workspace list
-  - terraform workspace new
-  - terraform workspace select
-  - terraform workspace delete
+  - terraform workspace show = show the current selected workspace 
+  - terraform workspace list = show all the workspace and * in front of current workspace 
+  - terraform workspace new = Create new workspace and switch to that namespace 
+  - terraform workspace select = Switch to the given namespace 
+  - terraform workspace delete = Delete the given namespace except default workspace (1. we cannot delete the default workspace 2. we cannot delete the workspace if its not empty 3. we cannot delete the workspace from that workspace itself, we need to switch the workspace to any other workspace and then delete it)
 
 
 ## Step-02: Update terraform manifests to support multiple workspaces
@@ -73,6 +82,7 @@ Observation:
 ```t
 # Create New Workspace
 terraform workspace new dev
+(This will create new folder to store dev workspace specific info)
 
 # Verify the folder
 cd terraform.tfstate.d 
