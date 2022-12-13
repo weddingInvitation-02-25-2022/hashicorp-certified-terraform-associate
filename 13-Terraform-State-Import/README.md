@@ -6,6 +6,7 @@
 - This allows you take resources you've created by some other means and bring it under Terraform management.
 - This is a great way to slowly transition infrastructure to Terraform, or to be able to be confident that you can use Terraform in the future if it potentially doesn't support every feature you need today.
 - [Full Reference](https://www.terraform.io/docs/cli/import/index.html)
+- Import will get terraform.tfstate for us but we need to write resource using it. 
 ### Two demos
 - **Demo-1:** Create EC2 Instance manually and import state to manage it from Terraform
 - **Demo-2:** Create S3 bucket manually and import state to mange it from Terraform
