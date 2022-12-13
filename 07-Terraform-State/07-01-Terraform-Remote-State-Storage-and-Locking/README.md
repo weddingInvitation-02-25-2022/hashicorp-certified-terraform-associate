@@ -15,6 +15,7 @@ The primary purpose of Terraform state is to store bindings between objects in a
 - Backend configuration is only used by Terraform CLI.
 - Terraform cloud and Terraform enterprise always use their own state storage when performing Terraform run, so they ignore any backend block in the configuartion. 
 - Backend types = 
+
 | Enhanced Backends | Standard Backends    |
 | :---:   | :---: | 
 | It can both store state & perform operations. There are only two enhanced backend: local & remote | It only store state and rely on the local backend for performing operations |
@@ -37,7 +38,7 @@ If two team members are running Terraform at the same time, you may run into rac
 - If acquiring the lock is taking longer than expected, Terraform will output a status message.
 - If Terraform doesn't output a message, state locking is still occurring if your backend supports it.
 - Terraform has a force-unlock command to manually unlock the state if unlocking failed. If you unlock the state when someone else is holding the lock it could cause multiple writers. Force unlock should only be used to unlock your own lock in the situation where automatic unlocking failed. To protect you, the force-unlock command requires a unique lock ID. Terraform will output this lock ID if unlocking fails. This lock ID acts as a nonce, ensuring that locks and unlocks target the correct lock.
-
+- Locking takes place by using terraform plan, terraform apply, terraform refresh etc. commands, where .statetf file get update.
 
 ## Step-01: Introduction
 - Understand Terraform Backends
