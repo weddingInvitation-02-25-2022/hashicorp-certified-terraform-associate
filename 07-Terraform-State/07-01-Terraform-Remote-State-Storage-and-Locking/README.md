@@ -2,6 +2,7 @@
 
 ## What is Terraform state ?
 The primary purpose of Terraform state is to store bindings between objects in a remote system and resource instances declared in your configuration. When Terraform creates a remote object in response to a change of configuration, it will record the identity of that remote object against a particular resource instance, and then potentially update or delete that object in response to future configuration changes.
+- Terraform state file gets generated after 'terraform apply' command 
 
 **Purpose of Terraform State**
 1. Mappings between resources and remote objects.
