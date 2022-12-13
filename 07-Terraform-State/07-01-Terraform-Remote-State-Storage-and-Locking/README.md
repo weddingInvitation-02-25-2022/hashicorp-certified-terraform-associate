@@ -40,6 +40,58 @@ If two team members are running Terraform at the same time, you may run into rac
 - Terraform has a force-unlock command to manually unlock the state if unlocking failed. If you unlock the state when someone else is holding the lock it could cause multiple writers. Force unlock should only be used to unlock your own lock in the situation where automatic unlocking failed. To protect you, the force-unlock command requires a unique lock ID. Terraform will output this lock ID if unlocking fails. This lock ID acts as a nonce, ensuring that locks and unlocks target the correct lock.
 - Locking takes place by using terraform plan, terraform apply, terraform refresh etc. commands, where .statetf file get update.
 
+## The terraform_remote_state Data Source
+- The terraform_remote_state data source uses the latest state snapshot from a specified state backend to retrieve the root module output values from some other Terraform configuration.
+- You can use the terraform_remote_state data source without requiring or configuring a provider. It is always available through a built-in provider with the source address terraform.io/builtin/terraform. That provider does not include any other resources or data sources.
+
+```t
+- Remote backend =
+data "terraform_remote_state" "vpc" {
+  backend = "remote"
+
+  config = {
+    organization = "hashicorp"
+    workspaces = {
+      name = "vpc-prod"
+    }
+  }
+}
+
+resource "aws_instance" "foo" {
+  # ...
+  subnet_id = data.terraform_remote_state.vpc.outputs.subnet_id
+}
+
+- Local backend =
+data "terraform_remote_state" "vpc" {
+  backend = "local"
+
+  config = {
+    path = "..."
+  }
+}
+
+resource "aws_instance" "foo" {
+  # ...
+  subnet_id = data.terraform_remote_state.vpc.outputs.subnet_id
+}
+
+```
+
+- **Root Outputs Only =** Only the root-level output values from the remote state snapshot are exposed for use elsewhere in your module. Resource data and output values from nested modules are not accessible.
+If you wish to make a nested module output value accessible as a root module output value, you must explicitly configure a passthrough in the root module. For example:
+
+```t
+module "app" {
+  source = "..."
+}
+
+output "app_value" {
+  value = module.app.example
+}
+```
+The output value named example from the "app" module is available as the app_value root module output value. If this configuration didn't include the output "app_value" block then the data would not be accessible via terraform_remote_state
+
 ## Step-01: Introduction
 - Understand Terraform Backends
 - Understand about Remote State Storage and its advantages
