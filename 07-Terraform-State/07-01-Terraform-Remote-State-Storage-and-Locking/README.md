@@ -3,9 +3,9 @@
 ## What is Terraform backend ?
 Backends are responsible for storing state and providing an API for state locking. (State storage + State Lock)
 
-| Attempt | #1    | #2    |
-| :---:   | :---: | :---: |
-| Seconds | 301   | 283   |
+| Local State | Remote State    |
+| :---:   | :---: | 
+| By default, Terraform stores state locally in a file named terraform.tfstate. When working with Terraform in a team, use of a local file makes Terraform usage complicated because each user must make sure they always have the latest state data before running Terraform and make sure that nobody else runs Terraform at the same time. | 301   | 
 
 
 ## Step-01: Introduction
