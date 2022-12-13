@@ -1,15 +1,33 @@
 # Terraform Remote State Storage & Locking
 
+## What is Terraform state ?
+The primary purpose of Terraform state is to store bindings between objects in a remote system and resource instances declared in your configuration. When Terraform creates a remote object in response to a change of configuration, it will record the identity of that remote object against a particular resource instance, and then potentially update or delete that object in response to future configuration changes.
+
+**Purpose of Terraform State**
+1. Mappings between resources and remote objects.
+2. To track metadata such as resource dependencies.
+3. Terraform stores a cache of the attribute values for all resources in the state. This is the most optional feature of Terraform state and is done only as a performance improvement.
+4. In the default configuration, Terraform stores the state in a file in the current working directory where Terraform was run and get synced.
+
 ## What is Terraform backend ?
 Backends are responsible for storing state and providing an API for state locking. (State storage + State Lock)
 
 | Local State | Remote State    |
 | :---:   | :---: | 
 | By default, Terraform stores state locally in a file named terraform.tfstate. | Terraform writes the state data to a remote data store. Terraform supports storing state in Terraform Cloud, HashiCorp Consul, Amazon S3, Azure Blob Storage, Google Cloud Storage, Alibaba Cloud OSS, and more. |
-| :---:   | :---: | 
 | When working with Terraform in a team, use of a local file makes Terraform usage complicated because each user must make sure they always have the latest state data before running Terraform and make sure that nobody else runs Terraform at the same time. | Terraform remote state file can then be shared between all members of a team. |
 
+## Problem with remote state =
+If two team members are running Terraform at the same time, you may run into race condition as multiple terraform processes make concurrent updates to the state files, leading to conflicts, data loss and state file corruption. To avoid such implement state locking.
 
+## State Locking 
+- Not all backend supports state locking. AWS S3 does support.
+- Terraform will lock your state for all operations that could write state. This prevents others from acquiring the lock and potentially corrupting your state.
+- State locking happens automatically on all operations that could write state. You won't see any message that it is happening. 
+- If state locking fails, Terraform will not continue.
+- If acquiring the lock is taking longer than expected, Terraform will output a status message.
+- If Terraform doesn't output a message, state locking is still occurring if your backend supports it.
+- Terraform has a force-unlock command to manually unlock the state if unlocking failed. If you unlock the state when someone else is holding the lock it could cause multiple writers. Force unlock should only be used to unlock your own lock in the situation where automatic unlocking failed. To protect you, the force-unlock command requires a unique lock ID. Terraform will output this lock ID if unlocking fails. This lock ID acts as a nonce, ensuring that locks and unlocks target the correct lock.
 
 
 ## Step-01: Introduction
