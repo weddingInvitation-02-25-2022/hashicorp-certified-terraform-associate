@@ -1,4 +1,7 @@
 # Terraform local-exec Provisioner
+- The local-exec provisioner invokes a local executable after a resource is created. 
+- This invokes a process on the machine running Terraform, not on the resource.
+
 
 ## Step-00: Pre-requisites
 - Create a EC2 Key pain with name `terraform-key` and copy the `terraform-key.pem` file in the folder `private-key` in `terraform-manifest` folder
@@ -26,7 +29,21 @@
     when    = destroy
     command = "echo Destroy-time provisioner Instanace Destroyed at `date` >> destroy-time.txt"
     working_dir = "local-exec-output-files/"
-  }  
+  }
+  
+  resource "aws_instance" "web" {
+  # ...
+
+  provisioner "local-exec" {
+    command = "echo $FOO $BAR $BAZ >> env_vars.txt"
+
+    environment = {
+      FOO = "bar"
+      BAR = 1
+      BAZ = "true"
+    }
+  }
+}
 ```
 
 
