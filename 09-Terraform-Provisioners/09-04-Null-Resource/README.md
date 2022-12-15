@@ -1,4 +1,7 @@
 # Terraform Null Resource
+- If you need to run provisioners that aren't directly associated with a specific resource, you can associate them with a null_resource.
+- Instances of null_resource are treated like normal resources, but they don't do anything.
+- Like with any other resource, you can configure provisioners and connection details on a null_resource. You can also use its triggers argument and any meta-arguments to control exactly where in the dependency graph its provisioners will run.
 
 ## Step-01: Introduction
 - Understand about [Null Provider](https://registry.terraform.io/providers/hashicorp/null/latest/docs)
