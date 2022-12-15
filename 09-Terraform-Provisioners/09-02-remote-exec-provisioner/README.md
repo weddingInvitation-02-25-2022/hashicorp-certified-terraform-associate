@@ -1,4 +1,7 @@
 # Terraform remote-exec Provisioner
+- The remote-exec provisioner invokes a script on a remote resource after it is created. 
+- This can be used to run a configuration management tool, bootstrap into a cluster, etc.
+- The remote-exec provisioner requires a connection and supports both ssh and winrm.
 
 ## Step-00: Pre-requisites
 - Create a EC2 Key pain with name `terraform-key` and copy the `terraform-key.pem` file in the folder `private-key` in `terraform-manifest` folder
@@ -25,6 +28,19 @@
     inline = [
       "sleep 120",  # Will sleep for 120 seconds to ensure Apache webserver is provisioned using user_data
       "sudo cp /tmp/file-copy.html /var/www/html"
+    ]
+  }
+  
+  # Run script 
+  provisioner "file" {
+    source      = "script.sh"
+    destination = "/tmp/script.sh"
+  }
+  
+  provisioner "remote-exec" {
+    inline = [
+      "chmod +x /tmp/script.sh",
+      "/tmp/script.sh args",
     ]
   }
 ```
