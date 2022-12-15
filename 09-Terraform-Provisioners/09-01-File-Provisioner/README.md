@@ -1,4 +1,7 @@
 # Terraform Provisioners
+- The file provisioner copies files or directories from the machine running Terraform to the newly created resource. 
+- The file provisioner supports both ssh and winrm type connections.
+
 
 ## Step-00: Provisioner Concepts
 - Generic Provisioners
