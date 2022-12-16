@@ -12,11 +12,11 @@ Child modules can be called multiple times within the same configuration, and mu
 - Also, members of your organization might produce modules specifically crafted for your own infrastructure needs. Terraform Cloud and Terraform Enterprise both include a private module registry for sharing modules internally within your organization.
 
 2. Module Basics 
-  - Defining a Child Module
-    - Source (Mandatory)
-    - Version
+  - Defining a Child Module = To call a module means to include the contents of that module into the configuration with specific values for its input variables. 
+    - Source (Mandatory) = Its value is either the path to a local directory containing the module's configuration files, or a remote module source that Terraform should download and use. Source=Local paths, Terraform Registry, GitHub, Bitbucket, Generic Git, Mercurial repositories, HTTP URLs, S3 buckets, GCS buckets, Modules in Package Sub-directories
+    - Version = When using modules installed from a module registry, we recommend explicitly constraining the acceptable version numbers to avoid unexpected or unwanted changes.
     - Meta-arguments (count, for_each, providers, depends_on, )
-    - Accessing Module Output Values
+    - Accessing Module Output Values = The resources defined in a module are encapsulated, so the calling module cannot access their attributes directly. However, the child module can declare output values to selectively export certain values to be accessed by the calling module. e.g., module.<module_local_name>.<param>
     - Tainting resources within a module
 
 ## Step-02: Defining a Child Module
