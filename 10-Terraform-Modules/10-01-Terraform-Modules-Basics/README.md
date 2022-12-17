@@ -17,7 +17,17 @@ Child modules can be called multiple times within the same configuration, and mu
     - Version = When using modules installed from a module registry, we recommend explicitly constraining the acceptable version numbers to avoid unexpected or unwanted changes.
     - Meta-arguments (count, for_each, providers, depends_on, )
     - Accessing Module Output Values = The resources defined in a module are encapsulated, so the calling module cannot access their attributes directly. However, the child module can declare output values to selectively export certain values to be accessed by the calling module. e.g., module.<module_local_name>.<param>
-    - Tainting resources within a module
+    - Transferring Resource State Into Modules = Moving resource blocks from one module into several child modules causes Terraform to see the new location as an entirely different resource. As a result, Terraform plans to destroy all resource instances at the old address and create new instances at the new address. To preserve existing objects, you can use refactoring blocks to record the old and new addresses for each resource instance. This directs Terraform to treat existing objects at the old addresses as if they had originally been created at the corresponding new addresses.
+    - Replacing resources within a module = You may have an object that needs to be replaced with a new object for a reason that isn't automatically visible to Terraform, such as if a particular virtual machine is running on degraded underlying hardware.
+    ```t
+    terraform plan -replace=module.example.aws_instance.example
+    ```
+    The above selects a resource "aws_instance" "example" declared inside a module "example" child module declared inside your root module.
+    Because replacing is a very disruptive action, Terraform only allows selecting individual resource instances. 
+    - Tainting resources within a module = tained resouces will get deployed in the next terraform apply 
+    ```t
+    terraform taint <RESOURCE-NAME>
+    ```
 
 ## Step-02: Defining a Child Module
 - We need to understand about the following
