@@ -1,4 +1,15 @@
 # Build a Terraform Module
+- A module is a container for multiple resources that are used together. You can use modules to create lightweight abstractions, so that you can describe your infrastructure in terms of its architecture, rather than directly in terms of physical objects.
+- The .tf files in your working directory when you run terraform plan or terraform apply together form the root module. That module may call other modules and connect them together by passing output values from one to input values of another.
+
+## Module structure
+- Input variables to accept values from the calling module.
+- Output values to return results to the calling module, which it can then use to populate arguments elsewhere.
+- Resources to define one or more infrastructure objects that the module will manage.
+
+## When to write a module
+- In principle any combination of resources and other constructs can be factored out into a module, but over-using modules can make your overall Terraform configuration harder to understand and maintain, so we recommend moderation.
+- 
 
 ## Step-01: Introduction
 - Build a Terraform Module
