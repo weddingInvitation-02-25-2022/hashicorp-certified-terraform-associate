@@ -9,7 +9,57 @@
 
 ## When to write a module
 - In principle any combination of resources and other constructs can be factored out into a module, but over-using modules can make your overall Terraform configuration harder to understand and maintain, so we recommend moderation.
-- 
+
+## Refactoring Modules 
+- When you add moved blocks in your configuration to record where you've historically moved or renamed an object, Terraform treats an existing object at the old address as if it now belongs to the new address.
+```t
+moved {
+  from = aws_instance.a
+  to   = aws_instance.b
+}
+```
+- **Renaming a Resource=** 
+```t
+resource "aws_instance" "b" {
+  count = 2
+
+  # (resource-type-specific configuration)
+}
+
+moved {
+  from = aws_instance.a
+  to   = aws_instance.b
+}
+```
+When creating the next plan for each configuration using this module, Terraform treats any existing objects belonging to aws_instance.a as if they had been created for aws_instance.b: aws_instance.a[0] will be treated as aws_instance.b[0], and aws_instance.a[1] as aws_instance.b[1].
+- **Renaming a Module Call=**
+```t
+module "b" {
+  source = "../modules/example"
+
+  # (module arguments)
+}
+
+moved {
+  from = module.a
+  to   = module.b
+}
+```
+When creating the next plan for each configuration using this module, Terraform will treat any existing object addresses beginning with module.a as if they had instead been created in module.b. module.a.aws_instance.example would be treated as module.b.aws_instance.example
+-**Removing moved Blocks=**
+```t
+moved {
+  from = aws_instance.a
+  to   = aws_instance.b
+}
+
+moved {
+  from = aws_instance.b
+  to   = aws_instance.c
+}
+```
+Recording a sequence of moves in this way allows for successful upgrades for both configurations with objects at aws_instance.a and configurations with objects at aws_instance.b. In both cases, Terraform treats the existing object as if it had been originally created as aws_instance.c
+
 
 ## Step-01: Introduction
 - Build a Terraform Module
