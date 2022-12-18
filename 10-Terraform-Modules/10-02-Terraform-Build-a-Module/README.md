@@ -46,7 +46,7 @@ moved {
 }
 ```
 When creating the next plan for each configuration using this module, Terraform will treat any existing object addresses beginning with module.a as if they had instead been created in module.b. module.a.aws_instance.example would be treated as module.b.aws_instance.example
--**Removing moved Blocks=**
+- **Removing moved Blocks=**
 ```t
 moved {
   from = aws_instance.a
