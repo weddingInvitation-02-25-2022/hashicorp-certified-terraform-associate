@@ -1,3 +1,24 @@
+# Terraform Expressions
+
+- Expressions refer to or compute values within a configuration.
+- You can experiment with the behavior of Terraform's expressions from the Terraform expression console, by running the terraform console command
+
+**Terraform's expression syntax**
+1. Types = Strings, Numbers, Bools, Null, Maps/Objects, Lists/Tuples
+2. Strings = Quoted Strings, Heredoc Strings (<<EOT ... EOT), Indented Heredocs
+3. String Templates = Interpolation (${ ... }), Directives (%{ ... })
+4. Named Values = Resources (<RESOURCE TYPE>.<NAME>), Input Variables (var.<NAME>), Local Values (local.<NAME>n), Child Module Outputs (module.<MODULE NAME>), Data Sources (data.<DATA TYPE>.<NAME>), Filesystem and Workspace Info (path.<NAME> or terraform.workspace) and Block-Local Values (count.index, each.key/each.value, self)
+5. Operators 
+6. Function Calls
+7. Conditional Expressions = condition ? true_val : false_val
+8. for Expressions = A for expression creates a complex type value by transforming another complex type value. [for s in var.list : upper(s)]
+- Input Types = [for k, v in var.map : length(k) + length(v)] or [for i, v in var.list : "${i} is ${v}"]
+- Result Types = {for s in var.list : s => upper(s)}
+- Filtering Elements = [for s in var.list : upper(s) if s != ""]
+- Element Ordering = toset([for e in var.set : e.example])
+- Grouping Results
+
+
 # Terraform Functions
 
 ## Step-01: Introduction
