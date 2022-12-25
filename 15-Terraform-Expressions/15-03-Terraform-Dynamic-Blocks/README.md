@@ -3,6 +3,7 @@
 ## Step-01: Introduction
 - Some resource types include repeatable nested blocks in their arguments, which do not accept expressions
 - You can dynamically construct repeatable nested blocks like setting using a special dynamic block type, which is supported inside resource, data, provider, and provisioner blocks
+- Overuse of dynamic blocks can make configuration hard to read and maintain, so we recommend using them only when you need to hide details in order to build a clean user interface for a re-usable module. Always write nested blocks out literally where possible.
 
 ## Step-02: Create / Review Terraform manifests
 ### c1-versions.tf
