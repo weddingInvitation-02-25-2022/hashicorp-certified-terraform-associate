@@ -17,6 +17,9 @@
 - Filtering Elements = [for s in var.list : upper(s) if s != ""]
 - Element Ordering = toset([for e in var.set : e.example])
 - Grouping Results
+9. Custom Condition Checks = use validation blocks, precondition and postcondition blocks, condition argument, self object, error_message argument 
+10. Type Constraints 
+11. Version Constraints = version = ">= 1.2.0, < 2.0.0"
 
 
 # Terraform Functions
