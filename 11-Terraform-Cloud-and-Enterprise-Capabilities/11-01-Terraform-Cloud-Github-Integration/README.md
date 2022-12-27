@@ -1,3 +1,11 @@
+# Terraform Cloud & Enterprise 
+- Terraform Cloud and Terraform Enterprise are two different distributions of the same application 
+- It manages Terraform runs in a consistent and reliable environment and includes easy access to shared state and secret data, access control for approving changes to infrastructure, a private registry to share terraform modules, detailed policy control for governing the contents of Terraform configuration
+- Terraform cloud is available as a hosted service at https://app.terraform.io
+1. Terraform VCS-Driven workflow = Check-ins TF files -> Trigger TF run on TF cloud 
+2. Terraform CLI-Driven workflow = TF plan and apply on local desktop -> Run on TF cloud 
+3. Terraform API-Driven workflow
+
 # Terraform Cloud & Github Integration
 
 ## Step-01: Introduction
